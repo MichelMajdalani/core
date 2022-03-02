@@ -2229,7 +2229,9 @@ func (msg *MsgDeSoBlock) FromBytes(data []byte) error {
 				return errors.Wrapf(err, "MsgDeSoBlock.FromBytes: Problem reading header")
 			}
 			blockProducerInfo = &BlockProducerInfo{}
-			blockProducerInfo.Deserialize(blockProducerInfoBytes)
+			if err = blockProducerInfo.Deserialize(blockProducerInfoBytes); err!= nil {
+				return errors.Wrapf(err, "MsgDeSoBlock.FromBytes: Problem deserializing block producer info bytes: %v", err)
+			}
 			ret.BlockProducerInfo = blockProducerInfo
 		}
 	}
